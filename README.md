@@ -2,8 +2,6 @@
 
 Trabajo práctico final de **Sistemas de Control I** — Facultad de Ciencias Exactas, Físicas y Naturales, Universidad Nacional de Córdoba (2026).
 
-**Autores:** Barron Saez, Lautaro · Krede, Julián
-
 ## Descripción
 
 Se modela y controla la **posición** de una cortina enrollable de lino (1,4 m × 1,2 m, 1,336 kg con contrapeso) accionada por un motor de corriente continua. El trabajo incluye:
@@ -15,13 +13,13 @@ Se modela y controla la **posición** de una cortina enrollable de lino (1,4 m �
 
 ### Hardware considerado
 
-| Componente | Modelo | Función |
-|---|---|---|
-| Motor DC | Faulhaber 2250-BX4 (24 V) | Actuador |
-| Caja reductora | Faulhaber 26A, 40:1 | Adaptar torque e inercia |
-| Encoder incremental | Faulhaber IE3-1024 (1024 pulsos/rev) | Sensor de posición |
-| Microcontrolador | Arduino Uno R3 | Comparador, controlador y generación de PWM |
-| Driver de potencia | Puente H IBT-2 | Amplificar la señal de 0–5 V a 0–24 V |
+| Componente          | Modelo                               | Función                                     |
+| ------------------- | ------------------------------------ | ------------------------------------------- |
+| Motor DC            | Faulhaber 2250-BX4 (24 V)            | Actuador                                    |
+| Caja reductora      | Faulhaber 26A, 40:1                  | Adaptar torque e inercia                    |
+| Encoder incremental | Faulhaber IE3-1024 (1024 pulsos/rev) | Sensor de posición                          |
+| Microcontrolador    | Arduino Uno R3                       | Comparador, controlador y generación de PWM |
+| Driver de potencia  | Puente H IBT-2                       | Amplificar la señal de 0–5 V a 0–24 V       |
 
 ## Resultados principales
 
@@ -42,25 +40,25 @@ $$FT_{LA}(s) = \frac{1{,}028\cdot10^{6}}{s\,(s^2 + 2{,}36\cdot10^{4}\,s + 5{,}18
 
 $$C(s) = K_p + K_d\,s = 2{,}5 + 0{,}5\,s$$
 
-No se usa acción integral: la planta ya es tipo 1 y así se evita el *windup* durante la saturación.
+No se usa acción integral: la planta ya es tipo 1 y así se evita el _windup_ durante la saturación.
 
-| Caso | $t_s$ | Sobrepasamiento | Error en estado estable |
-|---|---|---|---|
-| Modelo lineal | ≈ 8,5 s | 0 | 0 (llega a 80 rad, o sea 1,2 m) |
-| Con saturación (±24 V) y zona muerta (±0,39 V) | ≈ 11 s | 0 | ≈ 3400 pulsos (≈ 0,76 cm) |
+| Caso                                           | $t_s$   | Sobrepasamiento | Error en estado estable         |
+| ---------------------------------------------- | ------- | --------------- | ------------------------------- |
+| Modelo lineal                                  | ≈ 8,5 s | 0               | 0 (llega a 80 rad, o sea 1,2 m) |
+| Con saturación (±24 V) y zona muerta (±0,39 V) | ≈ 11 s  | 0               | ≈ 3400 pulsos (≈ 0,76 cm)       |
 
 ## Estructura del repositorio
 
 ```
 .
 ├── modelado.m                  # Modelado, análisis y diseño del PD (Octave/MATLAB)
+├── TPFinal.pdf                 # Informe compilado
 ├── Simulaciones/               # Diagramas de Scilab/Xcos (formato .ssp)
 │   ├── TP_Final_planta.ssp            # Planta a lazo abierto
 │   ├── TP_Final_modelo_lineal.ssp     # Sistema controlado lineal
 │   └── TP_Final_no_linealidades.ssp   # Sistema controlado con saturación y zona muerta
 └── informe/                    # Informe en LaTeX
     ├── TPFinal.tex                    # Documento principal
-    ├── TPFinal.pdf                    # Informe compilado
     ├── librerias.tex                  # Paquetes y configuración
     ├── portada.tex, introduccion.tex, def_del_problema.tex,
     │   analisis_del_sistema.tex, especificaciones.tex,
