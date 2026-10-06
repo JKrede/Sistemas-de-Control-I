@@ -1,0 +1,94 @@
+Para cumplir con las especificaciones de diseño, se implementa un controlador Proporcional-Derivativo (PD). La elección de esta estructura se fundamenta en que al ser la planta un sistema de Tipo 1 (polo en el origen proveniente del modelo mecánico), el error en estado estacionario ante una entrada escalón es teóricamente nulo en el modelo lineal por lo tanto, no hay necesidad de acción integral. Ademas se evita la acción integral para eliminar el riesgo de \textit{windup}, fenómeno crítico que se produce dado que el motor opera en saturación durante mucho tiempo, acumulando error y provocando sobrepasamientos indeseados.
+
+La función de transferencia del controlador propuesto es:
+\[
+	C(s) = K_p + K_d \cdot s
+\]
+
+Se adopta una estrategia de diseño analítico basada en el modelo simplificado de la planta. Calculando la constante de tiempo eléctrica a partir del polo calculado en la sección \ref{pdominantes}:
+\[
+\tau_e = \frac{1}{-s_3} = \frac{1}{23381} \approx \SI{0,043}{\milli\second}
+\]
+
+Comparándola con la constante de tiempo mecánica:
+\[
+\frac{\tau_m}{\tau_e} = \frac{\SI{4,5}{\milli\second}}{\SI{0.043}{\milli\second}} \approx 107 \implies \tau_m = 107 \cdot \tau_e
+\]
+
+Dado que la constante de tiempo eléctrica es dos órdenes de magnitud menor que la mecánica, es posible simplificar el modelo de la planta a un sistema de segundo orden. Esto permite calcular los parámetros $K_p$ y $K_d$ mediante asignación de polos directa para configurar el comportamiento deseado.
+
+La función de transferencia de velocidad angular original (ecuación \ref{eq:fdt_motor}) se simplifica de la siguiente forma:
+
+Primero se obtiene la ganancia estática del modelo original haciendo $s\rightarrow 0 $
+
+\[
+K_{DC} = \frac{\num{3,44e6}}{221,5\cdot23381} \approx 0,664
+\]
+
+Igualando el modelo simplificado $G_{simp}(s) = \frac{K_{eq}}{s + 221,5}$ a la ganancia estática obtenida anteriormente:
+
+\[
+\frac{K_{eq}}{0 + 221,5} = 0,664 \implies K_{eq} = 0,664 \cdot 221,5 \approx 147,1
+\]
+
+La función de transferencia simplifica de posición:
+
+\[
+G(s) \approx \frac{147,1}{s(s + 221,5)}
+\]
+
+
+Cálculo de la Ganancia Proporcional ($K_p$): Se dimensiona $K_p$ para fijar la velocidad de respuesta. Para un tiempo de establecimiento $t_s \approx \SI{8}{\second}$ en un sistema sobreamortiguado, el polo dominante de lazo cerrado debe ubicarse en $s \approx -4/t_s = -0,5$. Despejando de la ecuación característica simplificada, se obtiene el valor necesario para mover el polo dominante a dicha ubicación:
+
+Primero, se calcula la ganancia total de la trayectoria directa ($K_{total}$) agrupando las ganancias del conversor, driver, sensor y del modelo simplificado de la planta: 
+\[
+K_{total} = K_{conv} \cdot K_{driver} \cdot H_{sensor} \cdot K_{eq}
+\]
+\[
+K_{total} = \num{9,58e-6} \cdot 4,8 \cdot 6519 \cdot 147,1 \approx 44,14
+\]
+
+La ecuación característica del sistema a lazo cerrado (considerando inicialmente solo la acción proporcional para fijar la velocidad) es:
+\[
+s(s + 221,5) + K_{total} \cdot K_p = 0 \rightarrow s^2 + 221,5 s + 44,14 K_p = 0
+\]
+
+Dado que buscamos una respuesta sobreamortiguada donde el polo rápido ($p_{rapido} \approx 221$) está muy alejado del polo dominante deseado ($s_{dom} \approx 0,5$), se puede aplicar la aproximación de polos dominantes donde:
+\[
+s_{dom} \approx \frac{\text{Término Independiente}}{\text{Coeficiente Lineal}}
+\]
+
+\[
+|s_{dom}| \approx \frac{44,14 \cdot K_p}{221,5}
+\]
+
+Igualando al valor objetivo del polo dominante ($0,5$):
+\[
+0,5 = \frac{44,14 \cdot K_p}{221,5}
+\]
+
+Despejando $K_p$:
+\[
+K_p = \frac{0,5 \cdot 221,5}{44,14} \approx {2,5}
+\]
+
+Cálculo de la Acción Derivativa ($K_d$): A pesar de que el sistema posee amortiguamiento natural suficiente, se incorpora el término derivativo para otorgar robustez ante las posibles perturbaciones descritas en la sección \ref{pos_pert}. Para determinar $K_d$, se utiliza el criterio de ubicación del cero del controlador. Se busca que el cero introducido por el PD ($z_{PD}$) no interfiera con la dinámica dominante del lazo cerrado. Anteriormente se calculó la ubicación del polo dominante ($s_{dom}$) para un tiempo de establecimiento $t_s \approx \SI{8}{\second}$  en régimen sobreamortiguado $|s_{dom}| \approx \SI{0,5}{\radian\per\second}$
+
+Ubicamos el cero una década más lejos del origen que el polo dominante:
+
+\[
+|z_{PD}| = 10 \cdot |s_{dom}| = 10 \cdot 0,5 = 5
+\]
+
+Sabiendo que el cero del controlador PD está en $z = -K_p/K_d$ y usando $K_p = 2,5$:
+\[
+\frac{K_p}{K_d} = 5 \implies K_d = \frac{K_p}{5} = \frac{2,5}{5} = 0,5
+\]
+
+
+A partir de los valores obtenidos:
+$$K_p = 2,5 \qquad K_d = 0,5$$
+
+Se obtiene la función de transferencia del controlador:
+
+$$C(s) = 2,5 + 0,5 \cdot s$$

@@ -1,0 +1,15 @@
+Tras el desarrollo del modelo matemático y el diseño del sistema de control para la cortina motorizada, se extraen las siguientes conclusiones técnicas:
+\begin{itemize}
+	\item Validez del Modelo y Estabilidad: Se determinó que la planta física presenta un comportamiento de Tipo 1 debido a la presencia de un polo en el origen introducido por la relación entre la velocidad angular y la posición de la cortina. El análisis de estabilidad absoluta confirmó que la planta es marginalmente estable en lazo abierto, lo que justifica la necesidad de una realimentación para garantizar un posicionamiento preciso y controlado.
+	
+	\item Análisis de la Planta: La identificación de los polos de lazo abierto permitió establecer que la dinámica está dominada por la constante de tiempo mecánica ($\tau_m \approx 4,5 \text{ ms}$).
+	
+	\item Desempeño del Controlador: El diseño del compensador permitió alcanzar los requisitos de diseño, logrando un tiempo de establecimiento de $t_s \approx 8 \text{ s}$ para una entrada de escalón de posición. Se observó que, aunque el sistema teórico es de Tipo 1, las no linealidades introducidas en la simulación (zona muerta de $0,39 \text{ V}$ y saturación del driver) generan un error de estado estable no nulo frente a perturbaciones constantes, lo cual es una limitación física crítica identificada en este estudio.
+	
+	\item Impacto de las No Linealidades: La inclusión de la saturación del driver de potencia en el modelo de Scilab demostró que la velocidad de respuesta está limitada por el hardware. Intentar reducir el tiempo de establecimiento más allá de los límites calculados provocaría que el controlador opere permanentemente en saturación, lo que podría degradar la vida útil del motor y no necesariamente mejorar el desempeño temporal
+	
+\end{itemize}
+	
+	El trabajo integrador permitió validar que el uso de herramientas de simulación, complementadas con un análisis analítico riguroso de la estabilidad y la ubicación de polos, es fundamental para predecir el comportamiento de sistemas electromecánicos antes de su implementación física.
+	
+

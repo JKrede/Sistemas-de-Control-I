@@ -1,0 +1,31 @@
+\subsubsection{Tiempo de asentamiento}
+A partir de los parámetros del motor obtenidos de la hoja de datos, se calcula la velocidad máxima nominal que puede alcanzar el motor, sin tener en cuenta la caída de tensión en la resistencia interna, la velocidad angular máxima del motor:
+
+\begin{equation}
+	\omega_{\text{max}} = \frac{V_{\text{max}}}{k_b} = \frac{\SI{24}{\volt}}{\SI{0,0374}{\volt\per(\radian{\per\second})}} \approx \SI{641,7}{\radian\per\second} \label{eq:va_max}
+\end{equation}
+
+
+Por lo tanto la velocidad lineal máxima es:
+
+\[
+v_{\text{max}} = \frac{\omega_{\text{max}}}{N_{\text{red}}}\cdot r = \frac{\SI{641,7}{\radian\per\second}}{40}\cdot \SI{0,015}{\meter} \approx \SI{0,24}{\meter\per\second} 
+\]
+
+Entonces el tiempo mínimo teórico para un recorrido completo:
+
+\begin{equation}
+	t_{\text{min}} = \frac{d}{v_{\text{max}}} = \frac{\SI{1,2}{\meter}}{\SI{0,24}{\meter\per\second}} = \SI{5}{\second} \label{eq:tmin}
+\end{equation}
+
+Este tiempo calculado es a velocidad constante, sin tener en cuenta el tiempo necesario para alcanzar dicha velocidad y luego desacelerar para frenar completamente.
+
+Por lo tanto, una de las especificaciones de diseño es \textbf{reducir el tiempo de asentamiento a 8 segundos}, de esta manera no se supera el tiempo mínimo teórico posible y se reduce a más de la mitad el tiempo actual del sistema, manteniendo la operación dentro de los límites de voltaje lineal del motor.
+
+\subsubsection{Sobrepasamiento máximo}
+
+Debido a la existencia de topes mecánicos en los extremos del recorrido, un sobrepasamiento en la respuesta podría generar impactos contra dichos topes y requerir inversión de sentido para corregir la posición final. Esto incrementaría el desgaste del reductor y afectaría la seguridad mecánica del sistema. Por este motivo, se establece como especificación \textbf{sobrepasamiento nulo ($M_p = 0$)}
+
+\subsubsection{Error en estado estable}
+
+En el modelo lineal, la planta es de tipo $1$ y, por lo tanto, ante una entrada escalón en referencia de posición el error en estado estable es nulo, se busca conservar esta característica de la planta, de modo que la cortina alcance exactamente la posición objetivo con precisión y sin necesidad de correcciones adicionales.

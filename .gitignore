@@ -1,0 +1,52 @@
+# --- LaTeX: archivos auxiliares de compilación ---
+*.aux
+*.log
+*.toc
+*.out
+*.lof
+*.lot
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.dvi
+_minted*/
+*.idx
+*.ilg
+*.ind
+
+# El PDF final del informe (informe/TPFinal.pdf) SÍ se versiona.
+# Las figuras en informe/img/ también se versionan.
+
+# --- MATLAB / Octave ---
+*.asv
+*.m~
+*.mat
+octave-workspace
+octave-core
+.octave_hist
+
+# --- Scilab / Xcos ---
+*.sod
+*.bak
+
+# --- Editores / IDEs ---
+.vscode/
+.idea/
+*.swp
+*~
+.texpadtmp/
+*.kate-swp
+
+# --- Sistema operativo ---
+.DS_Store
+Thumbs.db
+desktop.ini

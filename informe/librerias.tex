@@ -1,0 +1,28 @@
+% Librerias
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsmath, amssymb}
+\usepackage{siunitx}
+\sisetup{
+	output-decimal-marker = {,},  % Coma decimal
+	inter-unit-product = \cdot,   % Usa \cdot entre unidades
+	exponent-product = \cdot,	  % Usa \cdot entre mantisa y exponente
+	per-mode = symbol             % Formato de unidades (/)
+}
+
+\usepackage{graphicx}
+
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\fancyhead{}
+\fancyhead[L]{UNC - FCEFyN} % Alineado a la izquierda
+\fancyhead[R]{Trabajo Final - Sistemas de Control I} % Alineado a la derecha
+\fancyfoot{}
+\fancyfoot[C]{\thepage}
